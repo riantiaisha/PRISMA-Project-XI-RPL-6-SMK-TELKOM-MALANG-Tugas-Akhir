@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
+  UserId         Int      @id @default(autoincrement())
   name       String
   email      String   @unique
   password   String
@@ -25,7 +25,7 @@ model User {
 }
 
 model Camera {
-  id          Int      @id @default(autoincrement()) 
+  CameraId          Int      @id @default(autoincrement()) 
   name        String
   brand       String
   pricePerDay Float    // Harga sewa per hari
@@ -37,38 +37,38 @@ model Camera {
 }
 
 model Rental {
-  id            Int       @id @default(autoincrement())
+  RentalId            Int       @id @default(autoincrement())
   userId        Int
   cameraId      Int
   startDate     DateTime  // Tanggal penyewaan
   endDate       DateTime  // Tanggal pengembalian
   totalAmount   Float     // Total harga sewa
   status        String    // e.g., "ongoing", "completed"
-  user          User      @relation(fields: [userId], references: [id])
-  camera        Camera    @relation(fields: [cameraId], references: [id])
+  user          User      @relation(fields: [userId], references: [UserId])
+  camera        Camera    @relation(fields: [cameraId], references: [CameraId])
   payment       Payment[]
   createdAt     DateTime  @default(now())
 }
 
 model Payment {
-  id          Int       @id @default(autoincrement())
+  PaymentId          Int       @id @default(autoincrement())
   rentalId    Int
   amount      Float     // Jumlah pembayaran
   paymentDate DateTime  // Tanggal pembayaran
   method      String    // Metode pembayaran, e.g., "credit card", "cash"
   status      String    // e.g., "paid", "unpaid"
-  rental      Rental    @relation(fields: [rentalId], references: [id])
+  rental      Rental    @relation(fields: [rentalId], references: [RentalId])
 }
 
 model Review {
-  id        Int      @id @default(autoincrement())
+  ReviewId        Int      @id @default(autoincrement())
   cameraId  Int
   userId    Int
   rating    Int      // Nilai rating, misalnya 1-5
   comment   String?  // Ulasan teks
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  camera    Camera   @relation(fields: [cameraId], references: [id])
+  user      User     @relation(fields: [userId], references: [UserId])
+  camera    Camera   @relation(fields: [cameraId], references: [CameraId])
 }
 
 enum Role{

@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient()
 
-export const getAllTransaksi = async(req, res) => {
+export const getAllRental = async(req, res) => {
     try {
         const result = await prisma.transaksi.findMany()
         res.status(200).json({
@@ -16,7 +16,7 @@ export const getAllTransaksi = async(req, res) => {
         })
     }
 }
-export const getTransaksiById = async(req, res) => {
+export const getRentalById = async(req, res) => {
     try {
         const result = await prisma.transaksi.findUnique({
             where:{
@@ -34,7 +34,7 @@ export const getTransaksiById = async(req, res) => {
         })
     }
 }
-export const addTransaksi= async(req, res) => {
+export const addRental= async(req, res) => {
     let {id_user, id_meja, id_menu, nama_pelanggan} = req.body
 
     const [getUserId, getMejaId, getMenuId] = await Promise.all([
@@ -42,7 +42,7 @@ export const addTransaksi= async(req, res) => {
         prisma.meja.findUnique({ where: { id_meja: Number(id_meja) } }),
         prisma.menu.findUnique({ where: { id_menu: Number(id_menu) } })
     ]);
-    if(getUserId && getMejaId && getMenuId){
+    if(getUserId && getMenuId){
         try { 
             const result = await prisma.transaksi.create({
                 data:{
