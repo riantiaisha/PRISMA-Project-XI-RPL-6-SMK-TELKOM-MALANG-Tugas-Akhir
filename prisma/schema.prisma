@@ -21,6 +21,7 @@ model User {
   role       Role  @default(admin) // e.g., "customer" atau "admin"
   rentals    Rental[] // Hubungan dengan Rental
   createdAt  DateTime @default(now())
+  review     Review[]
 }
 
 model Camera {
@@ -29,7 +30,7 @@ model Camera {
   brand       String
   pricePerDay Float    // Harga sewa per hari
   status      String   // e.g., "available", "rented"
-  description String?
+  description String
   rentals     Rental[] // Hubungan dengan Rental
   reviews     Review[] // Hubungan dengan Review
   createdAt   DateTime @default(now())
@@ -45,7 +46,7 @@ model Rental {
   status        String    // e.g., "ongoing", "completed"
   user          User      @relation(fields: [userId], references: [id])
   camera        Camera    @relation(fields: [cameraId], references: [id])
-  payment       Payment?
+  payment       Payment[]
   createdAt     DateTime  @default(now())
 }
 
